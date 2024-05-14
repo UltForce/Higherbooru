@@ -7,7 +7,9 @@ import "./Navbar.css";
 const Navbar = () => {
   return (
     <nav className="navbar-container">
-      <div className="logo">Higherbooru</div>
+      <div className="logo">
+        <img src="/logo.png" alt="logo" />
+      </div>
       <ul className="nav-links">
         <li>
           <Link to="/">Home</Link>

@@ -31,6 +31,7 @@ const Footer = () => {
           <p>Email: Higherbooru@gmail.com</p>
         </div>
       </div>
+
       <p>&copy; 2024 Higherbooru. All rights reserved.</p>
     </footer>
   );
