@@ -27,20 +27,9 @@ p {
   color: #555;
   margin-bottom: 10px;
 }
-.footer-content {
-  font-size: 1.2em;
-  color: white;
-  margin-bottom: 10px;
-}
-
-.footer-contenta {
-  font-size: 1.2em;
-  color: white;
-  margin-bottom: 10px;
-}
 
 .explore-button {
-  background-color: #d5ccbb;
+  background-color: #facc12;
   color: #fff;
   padding: 10px 20px;
   font-size: 1.2em;
@@ -51,7 +40,7 @@ p {
 }
 
 .explore-button:hover {
-  background-color: #888076;
+  background-color: #ffa600;
 }
 
 .buy-plans {
@@ -104,9 +93,19 @@ p {
 
 .photo-gallery {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
+  margin-left: -10px;
+  margin-right: 20px;
+  width: auto;
+  margin-top: 2rem;
+}
+
+.photo-gallery_column {
+  padding-left: 30px; /* gutter size */
+  background-clip: padding-box;
+}
+
+.photo-gallery_column > div {
+  margin-bottom: 30px;
 }
 
 .photo-gallery a {
@@ -123,14 +122,13 @@ p {
 }
 
 .photo-gallery img:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
 }
 .footer {
   margin-top: 0;
-  background-color: #c0b8a9;
+  background-color: #fcd61a;
   padding: 20px 0;
   text-align: center;
-  color: white;
 }
 
 .footer-content {
@@ -141,35 +139,118 @@ p {
   margin: 0 auto;
 }
 
-/* General Styles */
-body,
-html {
-  margin: 0;
-  padding: 0;
-  min-height: 100%;
+.card {
+  border-radius: 0;
 }
 
+.card-img-top {
+  margin-top: 1rem;
+}
+
+.card-title {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.modal-body {
+  display: flex; /* Enables Flexbox */
+  justify-content: center; /* Center horizontally */
+  flex-direction: column;
+}
+
+.modal-body img {
+  max-width: 100%; /* Ensures the image is responsive */
+  height: auto; /* Maintains aspect ratio */
+}
+
+.description-head {
+  text-align: left;
+}
+
+.custom-modal-title {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.description-head {
+  margin-top: 1rem;
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.add-img-btn {
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+.add-img-btn:hover {
+  background-color: rgba(252, 214, 26, 0.9);
+}
+
+.edit-mode-btn {
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  margin-left: 1rem;
+}
+
+.edit-mode-btn:hover {
+  background-color: rgba(252, 214, 26, 0.9);
+}
+
+.edit-mode-btn.active {
+  background-color: rgba(252, 214, 26, 0.9);
+}
+
+.delete-all-btn {
+  color: white;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  margin-left: 1rem;
+  background-color: #dc3545;
+}
+
+.delete-all-btn:hover {
+  background-color: rgb(165, 29, 42);
+}
+
+.photo-card {
+  position: relative;
+}
+
+.checkbox-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  display: none;
+}
+
+.checkbox-container label {
+  cursor: pointer;
+  font-size: 24px;
+  width: 32px;
+  height: 32px;
+  color: black;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 0.2rem;
+  padding: 5px;
+  display: flex;
+  transition: background-color 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+.checkbox-container input[type="checkbox"]:checked + label {
+  background-color: rgba(252, 214, 26, 0.9);
+  color: white;
+}
 /* Ensure the footer is always at the bottom of the page */
 .footer-container {
-  display: flex;
-  flex-direction: column;
-  min-height: 60vh;
+  min-height: 40vh;
 }
 
-.footer-content-wrapper {
-  flex: 1;
-}
-
-.footer-content {
-  margin-bottom: 0.5rem;
-}
-
-.footer-contenta {
-  margin: 0;
-}
-
-.social-media a {
-  text-decoration: none;
-  margin: 0.5rem;
-  display: inline-block;
+.space {
+  min-height: 62vh;
 }
