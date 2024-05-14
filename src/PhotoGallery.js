@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+<<<<<<< Updated upstream
 import {
   faEdit,
   faTrash,
   faPlus,
   faSort,
 } from "@fortawesome/free-solid-svg-icons";
+=======
+import { faEdit, faTrash, faPlus, faCheck } from "@fortawesome/free-solid-svg-icons";
+>>>>>>> Stashed changes
 import "./styles.css";
+import Masonry from 'react-masonry-css';
 
 const Toast = Swal.mixin({
   toast: true,
@@ -24,15 +29,31 @@ const Toast = Swal.mixin({
 const PhotoGallery = () => {
   const [photos, setPhotos] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+<<<<<<< Updated upstream
   const [sortBy, setSortBy] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [photosPerPage, setPhotosPerPage] = useState(8); // State for number of photos per page
+=======
+  const [selectedPhoto, setSelectedPhoto] = useState(null); // State for the selected photo
+  const [editMode, setEditMode] = useState(false); 
+  const [selectedPhotos, setSelectedPhotos] = useState([]);
+  const photosPerPage = 8;
+>>>>>>> Stashed changes
 
   useEffect(() => {
     const storedPhotos = JSON.parse(localStorage.getItem("photos")) || [];
-    setPhotos(storedPhotos);
+    // Convert uploadedAt back to a Date object
+    const photosWithDates = storedPhotos.map(photo => ({
+      ...photo,
+      uploadedAt: new Date(photo.uploadedAt)
+    }));
+    setPhotos(photosWithDates);
   }, []);
+
+  const toggleEditMode = () => {
+    setEditMode(!editMode);
+  };  
 
   const addPhoto = () => {
     Swal.fire({
@@ -60,8 +81,12 @@ const PhotoGallery = () => {
           image: imageInput.files[0],
           title: titleInput.value.trim(),
           description: descriptionInput.value.trim(),
+<<<<<<< Updated upstream
           createdOn: new Date().toLocaleString(),
           editedOn: null,
+=======
+          uploadedAt: new Date(),
+>>>>>>> Stashed changes
         };
       },
     }).then((result) => {
@@ -72,7 +97,11 @@ const PhotoGallery = () => {
         reader.onload = () => {
           const newPhotos = [
             ...photos,
+<<<<<<< Updated upstream
             { src: reader.result, title, description, createdOn, editedOn },
+=======
+            { src: reader.result, title, description, uploadedAt: new Date() },
+>>>>>>> Stashed changes
           ];
           setPhotos(newPhotos);
           localStorage.setItem("photos", JSON.stringify(newPhotos));
@@ -98,8 +127,13 @@ const PhotoGallery = () => {
     Swal.fire({
       title: "Edit Photo",
       html:
+<<<<<<< Updated upstream
         `<div class="form-floating"><input type="text" id="swal-title" placeholder="Title" class="form-control" value="${photo.title}" required maxlength="32"><label for="swal-title">Title</label></div>` +
         `<div class="form-floating"><input type="text" id="swal-description" placeholder="Description" class="form-control" value="${photo.description}" required maxlength="32"><label for="swal-description">Description</label></div>` +
+=======
+        `<div class="form-floating"><input type="text" id="swal-title" placeholder="Title" class="form-control" value="${photo.title}" required><label for="swal-title">Title</label></div>` +
+        `<div class="form-floating"><input type="text" id="swal-description" placeholder="Description" class="form-control" value="${photo.description}" required><label for="swal-description">Description</label></div>` +
+>>>>>>> Stashed changes
         `<div><img src="${photo.src}" id="swal-image-preview" style="max-width: 100%; max-height: 200px; margin-bottom: 10px;"><input type="file" id="swal-image" accept=".jpg, .jpeg, .png" class="form-control"></div>`,
       showCancelButton: true,
       confirmButtonText: "Update",
@@ -148,6 +182,7 @@ const PhotoGallery = () => {
         const imageData =
           typeof image === "string" ? image : URL.createObjectURL(image);
         const updatedPhotos = [...photos];
+<<<<<<< Updated upstream
         updatedPhotos[index] = {
           ...updatedPhotos[index],
           src: imageData,
@@ -155,6 +190,9 @@ const PhotoGallery = () => {
           description,
           editedOn,
         };
+=======
+        updatedPhotos[index] = { src: imageData, title, description, uploadedAt: photo.uploadedAt };
+>>>>>>> Stashed changes
         setPhotos(updatedPhotos);
         localStorage.setItem("photos", JSON.stringify(updatedPhotos));
         Swal.fire("Updated!", "Your photo has been updated.", "success").then(
@@ -252,6 +290,55 @@ const PhotoGallery = () => {
     setCurrentPage(1); // Reset to first page when changing photos per page
   };
 
+<<<<<<< Updated upstream
+=======
+  const handleImageClick = (photo) => {
+    setSelectedPhoto(photo);
+  };
+
+  const closeModal = () => {
+    setSelectedPhoto(null);
+  };
+
+  const handleCheckboxChange = (index) => {
+    if (selectedPhotos.includes(index)) {
+      setSelectedPhotos(selectedPhotos.filter((i) => i !== index));
+    } else {
+      setSelectedPhotos([...selectedPhotos, index]);
+    }
+  };
+
+  const deleteSelectedPhotos = () => {
+    Swal.fire({
+      title: "Delete Selected Photos?",
+      text: `Are you sure you want to delete all ${selectedPhotos.length} selected photos?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete them!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const updatedPhotos = photos.filter((_, index) => !selectedPhotos.includes(index));
+        setPhotos(updatedPhotos);
+        setSelectedPhotos([]);
+        localStorage.setItem("photos", JSON.stringify(updatedPhotos));
+        Swal.fire("Deleted!", "Selected photos have been deleted.", "success").then(
+          (result) => {
+            if (result.isConfirmed) {
+              Toast.fire({
+                icon: "success",
+                title: "Photos deleted successfully.",
+              });
+            }
+          }
+        );
+      }
+    });
+  };
+
+  // Calculate index of the last photo on the current page
+>>>>>>> Stashed changes
   const indexOfLastPhoto = currentPage * photosPerPage;
   const indexOfFirstPhoto = indexOfLastPhoto - photosPerPage;
   const sortedPhotos = photos.slice().sort(sortPhotos);
@@ -264,6 +351,7 @@ const PhotoGallery = () => {
   const totalImagesCount = sortedPhotos.length;
 
   return (
+<<<<<<< Updated upstream
     <div className="footer-container">
       <div className="footer-content-wrapper">
         <center>
@@ -359,9 +447,91 @@ const PhotoGallery = () => {
                         <FontAwesomeIcon icon={faTrash} />
                       </button>
                     </div>
+=======
+    <div>
+      <center>
+        <br />
+        <button onClick={addPhoto} className="add-img-btn">
+          Add Images <FontAwesomeIcon icon={faPlus} />
+        </button>
+        {photos.length > 0 && (
+          <button
+            onClick={toggleEditMode}
+            className={`edit-mode-btn ${editMode ? 'active' : ''}`}
+          >
+            {editMode ? "Exit Edit Mode" : "Enter Edit Mode"} <FontAwesomeIcon icon={faEdit} />
+          </button>
+        )}
+        {selectedPhotos.length > 0 && (
+          <button
+            onClick={deleteSelectedPhotos}
+            className="delete-all-btn btn-danger ms-2"
+          >
+            Delete All ({selectedPhotos.length}) <FontAwesomeIcon icon={faTrash} />
+          </button>
+        )}
+
+        <Masonry
+          breakpointCols={{ default: 5, 1100: 4, 700: 3, 500: 2 }}
+          className="photo-gallery"
+          columnClassName="photo-gallery_column"
+        >
+          {currentPhotos.map((photo, index) => (
+            <div key={index} className="col">
+              <div className="card h-100 photo-card">
+                <center>
+                  <img
+                    src={photo.src}
+                    alt={`Photo ${index + 1}`}
+                    className="card-img-top"
+                    onClick={() => handleImageClick(photo)}
+                    style={{ cursor: "pointer" }}
+                  />
+                </center>
+                <div className="card-body">
+                  <h5 className="card-title">{photo.title}</h5>
+                  <p className="card-text">{photo.description}</p>
+                  <div className="d-flex justify-content-between align-items-center">
+                    {editMode && (
+                      <>
+                        <button
+                          onClick={() => editPhoto(indexOfFirstPhoto + index)}
+                          className="btn btn-primary"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="Edit Photo"
+                        >
+                          <FontAwesomeIcon icon={faEdit} />
+                        </button>
+                        <button
+                          onClick={() => deletePhoto(indexOfFirstPhoto + index)}
+                          className="btn btn-danger"
+                          data-bs-toggle="tooltip"
+                          data-bs-placement="top"
+                          title="Delete Photo"
+                        >
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                      </>
+                    )}
+>>>>>>> Stashed changes
                   </div>
                 </div>
+                {editMode && (
+                  <div className="checkbox-container">
+                    <input
+                      type="checkbox"
+                      id={`checkbox-${indexOfFirstPhoto + index}`}
+                      checked={selectedPhotos.includes(indexOfFirstPhoto + index)}
+                      onChange={() => handleCheckboxChange(indexOfFirstPhoto + index)}
+                    />
+                    <label htmlFor={`checkbox-${indexOfFirstPhoto + index}`}>
+                      <FontAwesomeIcon icon={faCheck} />
+                    </label>
+                  </div>
+                )}
               </div>
+<<<<<<< Updated upstream
             ))}
           </div>
           <div>
@@ -373,6 +543,56 @@ const PhotoGallery = () => {
             {[
               ...Array(Math.ceil(sortedPhotos.length / photosPerPage)).keys(),
             ].map((number) => (
+=======
+            </div>
+          ))}
+        </Masonry>
+
+      </center>
+
+      {/* Modal for enlarged photo */}
+      {selectedPhoto && (
+        <div
+          className="modal show"
+          tabIndex="-1"
+          style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+          onClick={closeModal}
+        >
+          <div
+            className="modal-dialog modal-dialog-centered"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title custom-modal-title text-center w-100">
+                  {selectedPhoto.title}
+                </h5>
+                <button type="button" className="btn-close" onClick={closeModal}></button>
+              </div>
+              <div className="modal-body">
+                <img
+                  src={selectedPhoto.src}
+                  alt={selectedPhoto.title}
+                  className="img-fluid"
+                />
+                <p className="text-muted small text-center">Date Uploaded: {selectedPhoto.uploadedAt ? selectedPhoto.uploadedAt.toDateString() : 'Unknown'}</p> {/* Displaying the Date Uploaded */}
+                <p className="description-head">Description:
+                <div className="desc-text">
+                  {selectedPhoto.description}
+                  </div>
+                  </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Pagination */}
+      <nav aria-label="Page navigation">
+        <ul className="pagination justify-content-center">
+          {[...Array(Math.ceil(photos.length / photosPerPage)).keys()].map(
+            (number) => (
+>>>>>>> Stashed changes
               <li
                 key={number}
                 className={`page-item ${
