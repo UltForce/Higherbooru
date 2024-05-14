@@ -37,3 +37,8 @@
   color: #888076;
   /* Change the color on hover as desired */
 }
+
+.nav-links li.active a {
+  color: black;
+  transform: scale(1.1); /* Increase size by 10% */
+}

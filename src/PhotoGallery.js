@@ -7,7 +7,6 @@ import {
   faPlus,
   faSort,
 } from "@fortawesome/free-solid-svg-icons";
-import Footer from "./Footer"; // Import the Footer component
 import "./styles.css";
 
 const Toast = Swal.mixin({
@@ -28,7 +27,7 @@ const PhotoGallery = () => {
   const [sortBy, setSortBy] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const photosPerPage = 8;
+  const [photosPerPage, setPhotosPerPage] = useState(8); // State for number of photos per page
 
   useEffect(() => {
     const storedPhotos = JSON.parse(localStorage.getItem("photos")) || [];
@@ -212,28 +211,57 @@ const PhotoGallery = () => {
     setSearchResults(filteredPhotos);
   };
 
+  // Add state to track sort direction
+  const [sortDirection, setSortDirection] = useState({
+    title: "asc",
+    description: "asc",
+    createdOn: "asc",
+  });
+
+  // Modify handleSort function
   const handleSort = (sortType) => {
+    // Toggle sort direction
+    const newSortDirection = sortDirection[sortType] === "asc" ? "desc" : "asc";
+    setSortDirection({ ...sortDirection, [sortType]: newSortDirection });
     setSortBy(sortType);
   };
 
+  // Modify sortPhotos function to consider sort direction
   const sortPhotos = (a, b) => {
     switch (sortBy) {
       case "title":
-        return a.title.localeCompare(b.title);
+        return sortDirection.title === "asc"
+          ? a.title.localeCompare(b.title)
+          : b.title.localeCompare(a.title);
       case "description":
-        return a.description.localeCompare(b.description);
+        return sortDirection.description === "asc"
+          ? a.description.localeCompare(b.description)
+          : b.description.localeCompare(a.description);
       case "createdOn":
-        return new Date(a.createdOn) - new Date(b.createdOn);
+        return sortDirection.createdOn === "asc"
+          ? new Date(a.createdOn) - new Date(b.createdOn)
+          : new Date(b.createdOn) - new Date(a.createdOn);
       default:
         return 0;
     }
   };
+
+  const handlePerPageChange = (event) => {
+    // Function to handle change in photos per page
+    setPhotosPerPage(parseInt(event.target.value, 10));
+    setCurrentPage(1); // Reset to first page when changing photos per page
+  };
+
   const indexOfLastPhoto = currentPage * photosPerPage;
   const indexOfFirstPhoto = indexOfLastPhoto - photosPerPage;
   const sortedPhotos = photos.slice().sort(sortPhotos);
   const currentPhotos = searchQuery
     ? searchResults.slice(indexOfFirstPhoto, indexOfLastPhoto)
     : sortedPhotos.slice(indexOfFirstPhoto, indexOfLastPhoto);
+
+  // Calculate the number of displayed images
+  const displayedImagesCount = currentPhotos.length;
+  const totalImagesCount = sortedPhotos.length;
 
   return (
     <div className="footer-container">
@@ -245,19 +273,32 @@ const PhotoGallery = () => {
             data-bs-toggle="tooltip"
             data-bs-placement="top"
             title="Add Photo"
+            className=" btn btn-outline-primary"
           >
             <FontAwesomeIcon icon={faPlus} />
           </button>{" "}
-          <button onClick={() => handleSort("title")} className="sort-btn">
+          <button
+            onClick={() => handleSort("title")}
+            className={`sort-btn btn btn-outline-primary ${
+              sortBy === "title" ? "active" : ""
+            }`}
+          >
             Sort by Title <FontAwesomeIcon icon={faSort} />
           </button>{" "}
           <button
             onClick={() => handleSort("description")}
-            className="sort-btn"
+            className={`sort-btn btn btn-outline-primary ${
+              sortBy === "description" ? "active" : ""
+            }`}
           >
             Sort by Description <FontAwesomeIcon icon={faSort} />
           </button>{" "}
-          <button onClick={() => handleSort("createdOn")} className="sort-btn">
+          <button
+            onClick={() => handleSort("createdOn")}
+            className={`sort-btn btn btn-outline-primary ${
+              sortBy === "createdOn" ? "active" : ""
+            }`}
+          >
             Sort by Creation Date <FontAwesomeIcon icon={faSort} />
           </button>{" "}
           <input
@@ -265,7 +306,17 @@ const PhotoGallery = () => {
             placeholder="Search..."
             value={searchQuery}
             onChange={handleSearch}
-          />
+          />{" "}
+          Photos per page: {/* Dropdown for selecting photos per page */}
+          <select
+            aria-label="Select Photos Per Page"
+            value={photosPerPage}
+            onChange={handlePerPageChange}
+          >
+            <option value="4">4</option>
+            <option value="8">8</option>
+            <option value="12">12</option>
+          </select>
           <div className="photo-gallery row row-cols-1 row-cols-md-5 g-4">
             {currentPhotos.map((photo, index) => (
               <div key={index} className="col">
@@ -312,6 +363,9 @@ const PhotoGallery = () => {
                 </div>
               </div>
             ))}
+          </div>
+          <div>
+            Displaying {displayedImagesCount} out of {totalImagesCount} images
           </div>
         </center>
         <nav aria-label="Page navigation">
