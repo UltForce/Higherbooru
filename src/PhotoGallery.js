@@ -8,7 +8,7 @@ import {
   faSort,
   faCheck,
 } from "@fortawesome/free-solid-svg-icons";
-import "./styles.css";
+import "./Styles/styles.css";
 import Masonry from "react-masonry-css";
 
 const Toast = Swal.mixin({

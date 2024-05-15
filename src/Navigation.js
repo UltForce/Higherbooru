@@ -4,7 +4,7 @@ import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faImage } from "@fortawesome/free-solid-svg-icons";
 // Import the external CSS file for Navbar styles
-import "./Navbar.css";
+import "./Styles/Navbar.css";
 
 const Navbar = () => {
   const location = useLocation();
