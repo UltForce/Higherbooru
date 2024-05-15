@@ -13,8 +13,8 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FontAwesomeIcon icon={faFacebook} />
-            <span className="social-media-label"> Facebook</span>
+            <FontAwesomeIcon icon={faFacebook} className="white" />
+            <span className="social-media-label white"> Facebook</span>
           </a>
           <br />
           <a
@@ -22,17 +22,17 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <FontAwesomeIcon icon={faInstagram} />
-            <span className="social-media-label"> Instagram</span>
+            <FontAwesomeIcon icon={faInstagram} className="white" />
+            <span className="social-media-label white"> Instagram</span>
           </a>
         </div>
-        <div className="contact-info">
-          <p>Contact us: 09777549108</p>
-          <p>Email: Higherbooru@gmail.com</p>
+        <div>
+          <p className="white">Contact us: 09777549108</p>
+          <p className="white">Email: Higherbooru@gmail.com</p>
         </div>
       </div>
 
-      <p>&copy; 2024 Higherbooru. All rights reserved.</p>
+      <p className="white">&copy; 2024 Higherbooru. All rights reserved.</p>
     </footer>
   );
 };

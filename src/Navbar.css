@@ -1,18 +1,18 @@
 /* src/components/Navbar.css */
 
 .navbar-container {
-  background-color: #d5ccbb;
+  background-color: #1A4D2E;
   color: #d5ccbb;
   padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-height: 100px;
+  max-height: 70px;
 }
 
 .logo img {
-  width: 180px;
-  height: 210px;
+  width: 210px;
+  height: 70px;
 }
 
 .nav-links {
@@ -34,11 +34,11 @@
 }
 
 .nav-links a:hover {
-  color: #888076;
+  color: #4F6F52;
   /* Change the color on hover as desired */
 }
 
 .nav-links li.active a {
-  color: black;
+  color: #E8DFCA;
   transform: scale(1.1); /* Increase size by 10% */
 }
