@@ -28,11 +28,11 @@ const Footer = () => {
         </div>
         <div>
           <p className="white">Contact us: 09777549108</p>
-          <p className="white">Email: Higherbooru@gmail.com</p>
+          <p className="white">Email: CanvasCorner@gmail.com</p>
         </div>
       </div>
 
-      <p className="white">&copy; 2024 Higherbooru. All rights reserved.</p>
+      <p className="white">&copy; 2024 Canvas Corner. All rights reserved.</p>
     </footer>
   );
 };

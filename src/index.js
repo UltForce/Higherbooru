@@ -4,8 +4,8 @@ import "./Styles/index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
-import './Fonts/TAN-NIMBUS.otf'
-//import "bootswatch/dist/sketchy/bootstrap.min.css";
+import "./Fonts/TAN-NIMBUS.otf";
+import "bootswatch/dist/sketchy/bootstrap.min.css";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

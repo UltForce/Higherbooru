@@ -1,13 +1,17 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Tan-Nimbus" "Tan-Nimbus";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+    "Tan-Nimbus" monospace;
+}
+
+@font-face {
+  font-family: "TAN-NIMBUS";
+  src: local("TAN-NIMBUS"), url("/src/Fonts/TAN-NIMBUS.otf") format("truetype");
+  font-weight: normal;
 }

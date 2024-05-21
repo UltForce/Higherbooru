@@ -7,14 +7,38 @@ body {
 }
 
 .introduction {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 50px;
+  position: relative;
 }
 
-.text {
-  max-width: 500px;
+.image-container {
+  position: relative;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+}
+
+.text-button-container h2 {
+  position: -50px;
+  margin-top: -50px;
+  margin-bottom: 60px;
+  font-size: 60px;
+  color: transparent;
+  text-align: left;
+  font-family: "TAN-NIMBUS";
+  -webkit-text-stroke: 2px #f8f8f8;
+}
+
+.text-button-container {
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  right: 0;
+  padding: 20px;
+  color: transparent;
+  text-align: left;
+  font-family: "TAN-NIMBUS";
 }
 
 h1 {
@@ -24,15 +48,15 @@ h1 {
 
 p {
   font-size: 1.2em;
-  color: #555;
+  color: #ffffff;
   margin-bottom: 10px;
 }
 
 .explore-button {
-  background-color: #facc12;
+  background-color: #1a4d2e;
   color: #fff;
   padding: 10px 20px;
-  font-size: 1.2em;
+  font-size: 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -40,7 +64,7 @@ p {
 }
 
 .explore-button:hover {
-  background-color: #ffa600;
+  background-color: #4f6f52;
 }
 
 .buy-plans {
@@ -51,9 +75,25 @@ p {
   justify-content: space-between;
 }
 
+.image-content {
+  margin: auto;
+  margin-left: 40px;
+  margin-right: 40px;
+  margin-bottom: 20px;
+}
+
+.image-content img {
+  width: 350px;
+  height: 150px;
+  border-radius: 10px;
+}
 .buy-plans h2 {
-  font-size: 2em;
+  font-size: 25px;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-style: italic;
+  text-align: center;
   margin-bottom: 10px;
+  color: #1a4d2e;
 }
 
 .buy-plans p {
@@ -66,29 +106,54 @@ p {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+  text-align: center;
 }
 
 .subscription-option {
   flex: 0 1 calc(48% - 10px);
-  border: 1px solid #ddd;
   padding: 15px;
   border-radius: 5px;
 }
 
 .subscription-option h3 {
   font-size: 1.5em;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-weight: 100;
   margin-bottom: 10px;
+  color: #4f6f52;
+  font-style: bold;
+  text-align: center;
+}
+.about-container {
+  position: relative;
 }
 
-.subscribe-button {
-  background-color: #fcd61a;
-  color: #fff;
-  padding: 8px 15px;
-  font-size: 1em;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
+.about-container img {
+  width: 100%;
+  height: 100%;
+}
+
+.aboutus-text-container {
+  position: absolute;
+  top: 20%; /* adjust the value to position the text vertically */
+  left: 75%; /* adjust the value to position the text horizontally */
+  transform: translate(-50%, -50%);
+  font-size: 60px;
+  color: #ffffff;
+  text-align: left;
+  font-family: "TAN-NIMBUS";
+}
+
+.aboutus-p-container {
+  position: absolute;
+  top: 60%; /* adjust the value to position the text vertically */
+  left: 75%; /* adjust the value to position the text horizontally */
+  transform: translate(-50%, -50%);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  font-size: small;
+  color: #ffffff;
+  text-align: justify;
 }
 
 .photo-gallery {
@@ -126,7 +191,7 @@ p {
 }
 .footer {
   margin-top: 0;
-  background-color: #d5ccbb;
+  background-color: #1a4d2e;
   padding: 20px 0;
   text-align: center;
 }
@@ -137,6 +202,10 @@ p {
   align-items: center;
   max-width: 800px;
   margin: 0 auto;
+}
+
+.white {
+  color: white;
 }
 
 .card {
@@ -176,6 +245,7 @@ p {
   margin-top: 1rem;
   margin-left: 0.5rem;
   margin-right: 0.5rem;
+  color: black;
 }
 
 .add-img-btn {
@@ -253,4 +323,101 @@ p {
 
 .space {
   min-height: 62vh;
+}
+
+.black {
+  color: black;
+}
+
+/* Add media query for mobile responsiveness */
+@media (max-width: 768px) {
+  .introduction {
+    padding: 20px; /* Add padding to the introduction section */
+  }
+
+  .image-container img {
+    max-width: 100%; /* Make the image responsive */
+    height: auto; /* Ensure aspect ratio is maintained */
+  }
+
+  .text-button-container h2 {
+    font-size: 30px; /* Reduce font size for smaller screens */
+    margin-top: 0; /* Remove negative margin */
+    margin-bottom: 20px; /* Adjust margin for spacing */
+    text-align: center; /* Center align the text */
+    -webkit-text-stroke: 1px #f8f8f8; /* Reduce text stroke */
+    color: black;
+  }
+
+  .text-button-container {
+    position: relative; /* Remove absolute positioning */
+    margin-top: 20px; /* Add margin for spacing */
+  }
+
+  .explore-button {
+    width: 100%; /* Make button full width */
+    font-size: 16px; /* Reduce font size for smaller screens */
+  }
+
+  .buy-plans {
+    padding: 20px; /* Add padding to the buy-plans section */
+  }
+
+  .subscription-options {
+    flex-direction: column; /* Change to a vertical layout */
+  }
+
+  .subscription-option {
+    flex: 0 1 100%; /* Make subscription options full width */
+    margin-bottom: 20px; /* Adjust margin for spacing */
+    text-align: center; /* Center align the content */
+  }
+
+  .subscription-option h3 {
+    font-size: 18px; /* Reduce font size for smaller screens */
+  }
+
+  .subscription-option p {
+    font-size: 14px; /* Reduce font size for smaller screens */
+  }
+
+  .About-us {
+    padding: 20px; /* Add padding to the about-us section */
+    position: relative; /* Set position to relative */
+    color: black !important;
+  }
+
+  .about-container {
+    position: relative; /* Set position to relative */
+    color: black !important;
+  }
+
+  .about-container img {
+    width: 100%; /* Make the image responsive */
+    height: auto; /* Ensure aspect ratio is maintained */
+  }
+
+  .about-container .aboutus-text-container,
+  .about-container .aboutus-p-container {
+    position: static; /* Set position to static */
+    transform: none; /* Reset transform */
+    width: auto; /* Reset width */
+    max-width: none; /* Reset max-width */
+    text-align: center; /* Center align the text */
+    color: black !important; /* Set text color to black */
+  }
+
+  .about-container .aboutus-text-container {
+    font-size: 30px; /* Adjust font size */
+    margin-top: 20px; /* Add margin for spacing */
+    color: black !important; /* Set text color to black */
+  }
+
+  .about-container .aboutus-p-container {
+    font-size: 14px; /* Adjust font size */
+    margin-top: 10px; /* Add margin for spacing */
+  }
+  p {
+    color: black;
+  }
 }

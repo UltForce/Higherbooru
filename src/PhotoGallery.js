@@ -89,7 +89,18 @@ const PhotoGallery = () => {
             { src: reader.result, title, description, createdOn, editedOn },
           ];
           setPhotos(newPhotos);
-          localStorage.setItem("photos", JSON.stringify(newPhotos));
+          try {
+            // Attempt to set the new photos array to localStorage
+            localStorage.setItem("photos", JSON.stringify(newPhotos));
+          } catch (error) {
+            // Handle the error if quota is exceeded
+            console.error("Error while setting photos in localStorage:", error);
+            Swal.fire(
+              "Error",
+              "Failed to add photo. Local storage quota exceeded.",
+              "error"
+            );
+          }
           Swal.fire("Added!", "Your photo has been added.", "success").then(
             (result) => {
               if (result.isConfirmed) {
@@ -326,9 +337,7 @@ const PhotoGallery = () => {
   return (
     <div>
       <center className="space">
-        <div>
-          Displaying {displayedImagesCount} out of {totalImagesCount} images
-        </div>
+        <br />
         <button
           onClick={() => handleSort("title")}
           className={`sort-btn btn btn-outline-primary ${
@@ -362,6 +371,7 @@ const PhotoGallery = () => {
           <option value="20">20</option>
         </select>
         <br />
+        <br />
         <button onClick={addPhoto} className="add-img-btn">
           Add Images <FontAwesomeIcon icon={faPlus} />
         </button>
@@ -390,7 +400,7 @@ const PhotoGallery = () => {
         >
           {currentPhotos.map((photo, index) => (
             <div key={index} className="col">
-              <div>
+              <div className="card border-light h-100">
                 <center>
                   <img
                     src={photo.src}
@@ -402,7 +412,7 @@ const PhotoGallery = () => {
                 </center>
                 <div className="card-body">
                   <h5 className="card-title">{photo.title}</h5>
-                  <p className="card-text">{photo.description}</p>
+                  <p className="card-text black">{photo.description}</p>
 
                   <div className="d-flex justify-content-between align-items-center">
                     {editMode && (
@@ -488,8 +498,8 @@ const PhotoGallery = () => {
                     : "Unknown"}
                 </p>{" "}
                 {selectedPhoto.editedOn && (
-                  <p className="card-text">
-                    <small>Edited on: {selectedPhoto.editedOn}</small>
+                  <p className="text-muted small text-center">
+                    Edited on: {selectedPhoto.editedOn}
                   </p>
                 )}
                 {/* Displaying the Date Uploaded */}
@@ -502,7 +512,12 @@ const PhotoGallery = () => {
           </div>
         </div>
       )}
-
+      <center>
+        <div>
+          Displaying {displayedImagesCount} out of {totalImagesCount} images
+        </div>
+      </center>
+      <br />
       {/* Pagination */}
       <nav aria-label="Page navigation">
         <ul className="pagination justify-content-center">

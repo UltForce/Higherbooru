@@ -1,24 +1,20 @@
-/* src/components/Navbar.css */
-
 .navbar-container {
-  background-color: #d5ccbb;
+  background-color: #1a4d2e;
   color: #d5ccbb;
   padding: 15px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-height: 100px;
-
-  position: -webkit-sticky; /* For Safari */
+  max-height: 70px;
   position: sticky;
   top: 0;
   width: 100%;
-  z-index: 1000; /* Ensure it stays on top of other elements */
+  z-index: 1000;
 }
 
 .logo img {
-  width: 180px;
-  height: 210px;
+  width: 210px;
+  height: 70px;
 }
 
 .nav-links {
@@ -40,11 +36,69 @@
 }
 
 .nav-links a:hover {
-  color: #888076;
-  /* Change the color on hover as desired */
+  color: #4f6f52;
 }
 
 .nav-links li.active a {
-  color: black;
-  transform: scale(1.1); /* Increase size by 10% */
+  color: #e8dfca;
+  transform: scale(1.1);
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    width: 100%;
+    display: none;
+    background-color: #1a4d2e; /* Ensure the background color matches */
+    padding: 20px 0; /* Add padding for spacing */
+    position: absolute;
+    top: 70px; /* Adjust top based on navbar height */
+    left: 0;
+    right: 0;
+    text-align: center; /* Center the links */
+  }
+
+  .nav-links li {
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+  }
+
+  .nav-links a {
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 1em;
+  }
+
+  .nav-links a:hover {
+    color: #4f6f52;
+  }
+
+  .hamburger {
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+  }
+
+  .hamburger div {
+    width: 25px;
+    height: 3px;
+    background-color: #ffffff;
+    margin: 4px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .nav-links.open {
+    display: flex;
+    flex-direction: column; /* Ensure links are displayed in column */
+  }
 }
