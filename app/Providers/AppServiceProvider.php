@@ -9,6 +9,9 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
+    protected $policies = [
+        Image::class => ImagePolicy::class, // Map Image model to its policy
+    ];
     public function register(): void
     {
         //

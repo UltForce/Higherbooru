@@ -12,10 +12,20 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
+    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+        {{ __('Dashboard') }}
+    </x-nav-link>
+    <x-nav-link :href="route('images.index')" :active="request()->routeIs('images.index')">
+        {{ __('Images') }}
+    </x-nav-link>
+    <x-nav-link :href="route('images.my-images')" :active="request()->routeIs('images.my-images')">
+        {{ __('My Images') }}
+    </x-nav-link>
+    <x-nav-link :href="route('images.myBookmarks')" :active="request()->routeIs('images.myBookmarks')">
+        {{ __('My Bookmarks') }}
+    </x-nav-link>
+</div>
+
             </div>
 
             <!-- Settings Dropdown -->
