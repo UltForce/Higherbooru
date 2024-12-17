@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans&family=Quicksand&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
+    color: #1b2838;
+}
+
+.title {
+    color: #66c0f4;
+    font-size: 60px;
+    font-weight: bold;
+}
+
+.main {
+    padding-left: 10rem;
+    padding-right: 10rem;
+}
+
+.bg-white {
+    background-color: #2a475a;
+    flex-direction: column;
+    height: 100%;
+}
+
+.p-4 {
+    background-color: #2a475a;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribute space evenly */
+    min-height: 200px; /* Ensure a consistent minimum height for the section */
+}
+
+.search-function {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+}
+
+.search-form,
+.tags-form,
+.sort-form {
+    background-color: #2a475e;
+    border: 2px solid transparent; /* Initial border to prevent layout shift */
+    border-radius: 4px;
+    transition: border-color 0.3s ease-in-out; /* Smooth transition */
+    color: white;
+    padding: 0.5rem 1rem;
+    margin-right: 0.5rem;
+}
+
+.sort-form {
+    padding-right: 3rem;
+}
+
+.search-form::placeholder,
+.tags-form::placeholder {
+    color: #a3b4c4; /* Darker placeholder text color */
+    opacity: 100%;
+}
+
+.search-form:hover,
+.tags-form:hover {
+    border-color: white; /* Border color turns to white on hover */
+    animation: borderAnimation 1s steps(10) forwards; /* Apply the animation */
+}
+
+.search-function form {
+    display: flex;
+    align-items: center;
+}
+
+.search-btn,
+.clear-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.p-4 {
+    background-color: #2a475a;
+    color: white;
+}
+
+/* .mt-2 {
+    padding-bottom: 1rem;
+} */
+
+.image-title,
+.image-tags-text {
+    color: white;
+}
+
+.image-uploader,
+.image-tags,
+.image-bookmark-cntr {
+    color: #c7d5e0;
+    opacity: 85%;
+}
+
+.image-tags-text {
+    margin-bottom: 0.5rem; /* Ensure there's consistent spacing */
+}
+
+.image-tags {
+    padding-bottom: 0.5rem;
+}
+
+.bookmark-cntr {
+    display: flex;
+    flex-direction: row;
+    margin-top: auto; /* Push the bookmark section to the bottom */
+    margin-bottom: 0.5rem;
+}
+
+/* Make sure the image container maintains a 4:3 aspect ratio */
+.image-container {
+    position: relative;
+    width: 100%; /* Ensure it takes the full width of the parent */
+    padding-top: 75%; /* This creates a 4:3 aspect ratio (height = 3/4 of the width) */
+    overflow: hidden;
+}
+
+/* Style for the image */
+.image-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Make sure the image covers the container without distorting */
+}
+
+/* .img-cntr {
+    border: 4px solid transparent;
+    transition: border 0.3s ease-in-out;
+}
+
+.img-cntr:hover {
+    color: white;
+    animation: borderAnimation 1s steps(10) forwards;
+} */

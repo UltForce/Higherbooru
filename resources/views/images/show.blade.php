@@ -4,7 +4,7 @@
             <img class="w-full h-96 object-cover" src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $image->title }}">
             <div class="p-6">
                 <h1 class="text-2xl font-bold text-gray-800">{{ $image->title }}</h1>
-                <p class="text-gray-600 mt-2">Uploaded by: User #{{ $image->user_id }}</p>
+                <p class="text-gray-600 mt-2">Uploaded by: {{ $image->user->name }}</p>
 
                 <div class="mt-4">
                     <strong>Tags:</strong>

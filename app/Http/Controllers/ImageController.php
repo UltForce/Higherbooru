@@ -16,56 +16,85 @@ class ImageController extends Controller
     {
         $query = Image::query();
     
-        // Exclude images owned by the logged-in user, except for admins
-        if (!auth()->user()->isAdmin()) {
-            $query->where('user_id', '!=', auth()->id());
-        }
+        // // Exclude images owned by the logged-in user, except for admins
+        // if (!auth()->user()->isAdmin()) {
+        //     $query->where('user_id', '!=', auth()->id());
+        // }
     
-        // Search by title
-        if ($request->has('title') && $request->input('title') !== '') {
-            $query->where('title', 'like', '%' . $request->input('title') . '%');
-        }
-    
-        // Search by tags
-        if ($request->has('tags') && $request->input('tags') !== '') {
-            $query->whereHas('tags', function ($q) use ($request) {
-                $q->where('name', 'like', '%' . $request->input('tags') . '%');
-            });
-        }
-    
-        // Apply sorting based on user selection
-        if ($request->has('sort')) {
-            if ($request->input('sort') == 'newest') {
-                $query->orderBy('created_at', 'desc');
-            } elseif ($request->input('sort') == 'oldest') {
-                $query->orderBy('created_at', 'asc');
-            }
-        }
-    
-        // Paginate results
-        $images = $query->paginate(10);
-    
-        // Add 'is_bookmarked' property to each image
-        $user = auth()->user();
-        foreach ($images as $image) {
-            // Check if the user has bookmarked the image
-            $image->is_bookmarked = $user ? $user->bookmarks()->where('image_id', $image->id)->exists() : false;
-        }
-    
-        // Return the view with the filtered results
-        return view('images.index', compact('images'));
+    // Search by title
+    if ($request->has('title') && $request->input('title') !== '') {
+        $query->where('title', 'like', '%' . $request->input('title') . '%');
     }
-    
-    
-    
-    
-    
-public function myImages()
-{
-    // Show only images owned by the logged-in user
-    $images = Image::where('user_id', auth()->id())->get();
 
-    return view('images.my-images', compact('images'));
+    // Search by tags
+    if ($request->has('tags') && !empty($request->input('tags'))) {
+        $query->whereHas('tags', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->input('tags') . '%');
+        });
+    }
+
+    // Apply sorting based on user selection or default to 'newest'
+    $sort = $request->input('sort', 'newest'); // Default to 'newest' if no sort parameter is given
+    if ($sort == 'newest') {
+        $query->orderBy('created_at', 'desc');
+    } elseif ($sort == 'oldest') {
+        $query->orderBy('created_at', 'asc');
+    }
+
+    // Eager load the user relationship and paginate the results
+    $images = $query->with('user')->paginate(6); // Ensure pagination is after sorting
+
+    // Add 'is_bookmarked' property to each image
+    $user = auth()->user();
+    foreach ($images as $image) {
+        $image->is_bookmarked = $user ? $user->bookmarks()->where('image_id', $image->id)->exists() : false;
+    }
+
+    // Return the view with the filtered results and sorting options
+    return view('images.index', compact('images', 'sort'));
+}
+    
+    
+    
+    
+    
+    
+public function myImages(Request $request)
+{
+    // Start a query to fetch only images uploaded by the logged-in user
+    $query = Image::where('user_id', auth()->id());
+
+    // Search by title
+    if ($request->has('title') && $request->input('title') !== '') {
+        $query->where('title', 'like', '%' . $request->input('title') . '%');
+    }
+
+    // Search by tags
+    if ($request->has('tags') && !empty($request->input('tags'))) {
+        $query->whereHas('tags', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->input('tags') . '%');
+        });
+    }
+
+    // Apply sorting based on user selection or default to 'newest'
+    $sort = $request->input('sort', 'newest'); // Default to 'newest' if no sort parameter is given
+    if ($sort == 'newest') {
+        $query->orderBy('created_at', 'desc');
+    } elseif ($sort == 'oldest') {
+        $query->orderBy('created_at', 'asc');
+    }
+
+    // Eager load the user relationship and paginate the results
+    $images = $query->with('user')->paginate(6); // Ensure pagination is after sorting
+
+    // Add 'is_bookmarked' property to each image
+    $user = auth()->user();
+    foreach ($images as $image) {
+        $image->is_bookmarked = $user ? $user->bookmarks()->where('image_id', $image->id)->exists() : false;
+    }
+
+    // Return the view with the filtered results and sorting options
+    return view('images.my-images', compact('images', 'sort'));
 }
 
 public function create()

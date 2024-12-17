@@ -1,42 +1,54 @@
 <x-app-layout>
-    <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        <!-- Search and Filter Form -->
-        <form method="GET" action="{{ route('images.index') }}" class="mb-4">
-            <input type="text" name="title" placeholder="Search by title" value="{{ request('title') }}">
-            <input type="text" name="tags" placeholder="Search by tags" value="{{ request('tags') }}">
+<link href="{{ asset('css/index.css') }}" rel="stylesheet">
+<body>
+<div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+    <div class="title">
+    higherbooru
+    </div>
+    <!-- Search and Filter Form -->
+    <div class="search-function">
+        <form method="GET" action="{{ route('images.index') }}" class="flex items-center mb-4">
+            <!-- Search Input -->
+            <input type="text" class="search-form" name="title" placeholder="Search by title" value="{{ request('title') }}">
+
+            <!-- Tags Input -->
+            <input type="text" class="tags-form" name="tags" placeholder="Search by tags" value="{{ request('tags') }}">
 
             <!-- Sorting Dropdown -->
-            <select name="sort" class="ml-4">
+            <select name="sort" class="ml-4 sort-form">
                 <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest</option>
                 <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest</option>
             </select>
 
-            <button type="submit" class="ml-4 text-white">Search</button>
+            <!-- Submit Button -->
+            <button type="submit" class="ml-4 text-white search-btn">Search</button>
 
             <!-- Clear Search Button -->
-            <a href="{{ route('images.index') }}" class="text-blue-500 hover:text-blue-700 ml-4">Clear Search</a>
+            <a href="{{ route('images.index') }}" class="text-blue-500 hover:text-blue-700 ml-4 clear-btn">Clear Search</a>
         </form>
-
+    </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ($images as $image)
-                <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <div class="img-cntr bg-white shadow-md rounded-lg overflow-hidden">
                     <!-- Add a link to the view page -->
+                    <div class="image-container">
                     <a href="{{ route('images.show', $image->id) }}">
                         <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $image->title }}">
                     </a>
+                    </div>
                     <div class="p-4">
-                        <h2 class="text-lg font-bold text-gray-800">{{ $image->title }}</h2>
-                        <p class="text-gray-500 text-sm">Uploaded by: User #{{ $image->user_id }}</p>
+                        <h2 class="image-title text-lg font-bold text-gray-800">{{ $image->title }}</h2>
+                        <p class="image-uploader text-gray-500 text-sm">Uploaded by: {{ $image->user->name }}</p>
                         <div class="mt-2">
                             <strong>Tags:</strong>
-                            <ul class="list-none">
+                            <ul class="image-tags-text list-none">
                                 @foreach ($image->tags as $tag)
-                                    <li class="inline-block text-sm text-gray-600">{{ $tag->name }}</li>
+                                    <li class="image-tags inline-block text-sm text-gray-600">{{ $tag->name }}</li>
                                 @endforeach
                             </ul>
                         </div>
                         <!-- Bookmark Button -->
-                        <div class="flex items-center mt-2 space-x-2">
+                        <div class="bookmark-cntr flex items-center mt-2 space-x-2 mt-auto">
                             <form action="{{ route('images.bookmark', $image->id) }}" method="POST">
                                 @csrf
                                 <button type="submit" class="text-red-500 hover:text-red-600">
@@ -44,32 +56,19 @@
                                     <i class="{{ $image->is_bookmarked ? 'fas fa-heart' : 'far fa-heart' }}"></i> Bookmark
                                 </button>
                             </form>
-                            <span class="text-sm text-gray-500">{{ $image->bookmarkCount() }} bookmarks</span>
+                            <span class="image-bookmark-cntr text-sm text-gray-500">{{ $image->bookmarkCount() }} bookmarks</span>
                         </div>
-
-                        <!-- Delete Button (Admin only) -->
-                        @if(auth()->user()->isAdmin())
-                            <div class="mt-4">
-                                <form id="delete-form-{{ $image->id }}" action="{{ route('images.destroy', $image->id) }}" method="POST" style="display:none;">
-                                    @csrf
-                                    @method('DELETE')
-                                </form>
-                                <button type="button" class="text-red-500 hover:text-red-600" onclick="confirmDelete({{ $image->id }})">
-                                    <i class="fas fa-trash-alt"></i> Delete
-                                </button>
-                            </div>
-                        @endif
                     </div>
                 </div>
             @endforeach
         </div>
 
         <!-- Pagination Links -->
-        <div class="mt-6">
-            {{ $images->links() }}
+        <div class="pagination-btn mt-6">
+            {{ $images->appends(request()->query())->links() }} <!-- Ensure query parameters are kept in pagination links -->
         </div>
     </div>
-
+    </body>
     <!-- SweetAlert Script -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -100,4 +99,5 @@
             });
         }
     </script>
+    
 </x-app-layout>
