@@ -19,7 +19,7 @@
                 </div>
             </div>
             <div class="form-group tags-container">
-                <label for="tags" class="form-label">Tags:</label>
+                <label for="tags" class="form-label">Tags: (separated by commas)</label>
                 <select name="tags[]" id="tags" class="form-input" multiple>
                     @foreach($image->tags as $tag)
                         <option value="{{ $tag->id }}" selected>{{ $tag->name }}</option>

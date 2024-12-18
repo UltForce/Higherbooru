@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="form-group tags-container">
-                <label for="tags" class="form-label">Tags:</label>
+                <label for="tags" class="form-label">Tags: (separated by commas)</label>
                 <select name="tags[]" id="tags" class="form-input" multiple></select>
             </div>
 
