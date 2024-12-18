@@ -141,3 +141,71 @@ body {
     color: white;
     animation: borderAnimation 1s steps(10) forwards;
 } */
+
+.search-btn {
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.search-btn:hover {
+    background-color: #45a049; /* Darker green on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+}
+
+.clear-btn {
+    background-color: #f44336; /* Red background */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: all 0.3s ease; /* Smooth transition for hover effect */
+    text-decoration: none; /* Remove underline */
+    padding: 0.5rem 1rem; /* Add consistent padding */
+    font-weight: bold; /* Bold text for visibility */
+    display: inline-block; /* Ensure it behaves like a button */
+}
+
+.clear-btn:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    text-decoration: none; /* Keep underline removed on hover */
+}
+
+.sort-form {
+    background-color: #2a475e;
+    border: 2px solid transparent;
+    border-radius: 4px; /* Consistent border radius */
+    padding: 0.5rem 1rem;
+    padding-right: 2.5rem; /* Add space for the arrow */
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    position: relative; /* Position for pseudo-element */
+    appearance: none; /* Remove default browser styles */
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none; /* For Firefox */
+}
+
+/* Add a pseudo-element for the arrow */
+.sort-form::after {
+    content: '▼'; /* Dropdown arrow */
+    font-size: 0.75rem; /* Adjust arrow size */
+    color: white; /* Match arrow color */
+    position: absolute;
+    right: 1rem; /* Position to the right */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Correct alignment */
+    pointer-events: none; /* Prevent interaction */
+}
+
+/* Add focus styles for better accessibility */
+.sort-form:focus {
+    outline: none;
+    border-color: white;
+}
+
+.sort-form:hover {
+    border-color: white; /* Add hover effect */
+}

@@ -1,26 +1,27 @@
 <x-app-layout>
+    <link href="{{ asset('css/create.css') }}" rel="stylesheet">
     <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        <h1 class="text-2xl font-bold mb-4 text-white">Create New Image</h1>
-        <form id="create-form" action="{{ route('images.store') }}" method="POST" enctype="multipart/form-data" onsubmit="return confirmCreate(event)">
+        <h1 class="title text-2xl font-bold mb-6 text-white">Create New Image</h1>
+        <form id="create-form" class="create-form-container" action="{{ route('images.store') }}" method="POST" enctype="multipart/form-data" onsubmit="return confirmCreate(event)">
             @csrf
-            <div>
-                <label for="title" class="block text-sm font-medium text-gray-700">Title:</label>
-                <input type="text" name="title" id="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+            <div class="form-group">
+                <label for="title" class="form-label">Title:</label>
+                <input type="text" name="title" id="title" class="form-input" placeholder="Maximum 32 characters" required maxlength="32">
             </div>
-            <div class="mt-4">
-                <label for="image" class="block text-sm font-medium text-gray-700">Image:</label>
-                <input type="file" name="image" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" accept=".jpg,.jpeg,.png,.gif,.webp" required>
+            <div class="form-group">
+                <label for="image" class="form-label">Image:</label>
+                <input type="file" name="image" id="image" class="form-input" accept=".jpg,.jpeg,.png,.gif,.webp" required onchange="previewImage(event)">
+                <!-- Image preview will show up here -->
+                <div id="image-preview-container" style="display: none; margin-top: 10px; display: flex; justify-content: center;">
+                    <img id="image-preview" src="" style="max-width: 100%; max-height: 300px; border-radius: 8px;">
+                </div>
             </div>
-            <div class="mt-4">
-                <label for="tags" class="block text-sm font-medium text-gray-700">Tags:</label>
-                <select name="tags[]" id="tags" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm text-black" multiple>
-                    @foreach($tags as $tag)
-                        <option value="{{ $tag->name }}">{{ $tag->name }}</option>
-                    @endforeach
-                </select>
+            <div class="form-group tags-container">
+                <label for="tags" class="form-label">Tags:</label>
+                <select name="tags[]" id="tags" class="form-input" multiple></select>
             </div>
 
-            <button type="submit" class="mt-6 px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">Upload</button>
+            <button type="submit" class="upload-btn">Upload</button>
         </form>
     </div>
 
@@ -29,17 +30,32 @@
         $(document).ready(function() {
             $('#tags').select2({
                 tags: true,  // Allow custom tag input
-                tokenSeparators: [',', ' '],
-                placeholder: 'Add tags (separate with commas or spaces)',
-                width: '100%',
+                tokenSeparators: [',', ' '],  // Allow space and comma as tag separators
+                placeholder: 'Add tags',  // Placeholder text
+                width: '100%',  // Ensure full width
             });
         });
 
+        // Function to preview the selected image inside the form group
+        function previewImage(event) {
+            const image = event.target.files[0];
+            const previewContainer = document.getElementById('image-preview-container');
+            const preview = document.getElementById('image-preview');
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                previewContainer.style.display = 'flex';  // Show the preview container and center the image
+            };
+
+            if (image) {
+                reader.readAsDataURL(image);
+            }
+        }
+
         function confirmCreate(event) {
-            // Prevent the form from submitting initially
             event.preventDefault();
 
-            // Check if the title field is empty
             const title = document.getElementById('title').value;
             if (!title) {
                 Swal.fire({
@@ -49,10 +65,9 @@
                     confirmButtonColor: '#3085d6',
                     confirmButtonText: 'Ok'
                 });
-                return false; // Stop form submission
+                return false;
             }
 
-            // Show confirmation popup
             Swal.fire({
                 title: 'Are you sure?',
                 text: "Do you want to create this image?",
@@ -63,7 +78,6 @@
                 confirmButtonText: 'Yes, create it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Show success message before form submission
                     Swal.fire({
                         title: 'Created!',
                         text: 'The image has been created successfully.',
@@ -71,7 +85,6 @@
                         showConfirmButton: true,
                         timer: 1500
                     }).then(() => {
-                        // Submit the form after success message
                         document.getElementById('create-form').submit();
                     });
                 }

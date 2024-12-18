@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans&family=Quicksand&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'DM Sans', sans-serif;
+    color: #1b2838;
+    background-color: #f7f8fa;  /* Light background color */
+}
+
+.title {
+    color: #66c0f4;  /* Light blue title */
+    font-size: 60px;  /* Adjusted font size */
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 1.5rem; /* Spacing between form fields */
+}
+
+.form-label {
+    font-size: 18px;
+    color: white;  /* Darker text for labels */
+    font-weight: 500;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;  /* Light border */
+    border-radius: 8px;
+    background-color: #ffffff;  /* White background */
+    color: #4b5563;  /* Darker text inside input fields */
+    font-size: 14px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);  /* Subtle shadow */
+    transition: border-color 0.3s ease-in-out;
+}
+
+.form-input:focus {
+    border-color: #66c0f4;  /* Focus state border color */
+    outline: none;
+}
+
+.upload-btn {
+    background-color: #66c0f4;  /* Blue button background */
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.upload-btn:hover {
+    background-color: #4d9ecf;  /* Darker blue on hover */
+}
+
+#tags {
+    display: none;  /* Hide the original select input */
+}
+
+.select2-container {
+    width: 100% !important;  /* Ensure Select2 container takes full width */
+}
+
+.select2-selection {
+    display: inline-flex !important;  /* Ensure the select2 selection behaves like inline-flex */
+    flex-wrap: wrap;  /* Allow tags to wrap */
+    align-items: center;  /* Vertically center the content */
+    padding: 5px 10px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    min-height: 38px;  /* Set a minimum height for the container */
+    width: 100%;  /* Ensure it takes full width of its container */
+}
+
+.select2-selection__rendered {
+    display: flex;
+    flex-wrap: wrap;  /* Allow tags to wrap if needed */
+    align-items: center;  /* Center content vertically */
+    gap: 5px;  /* Space between tags */
+    width: 100%;  /* Ensure it stretches properly */
+}
+
+.select2-selection__choice {
+    background-color: #66c0f4;  /* Blue background for tags */
+    color: white;
+    border-radius: 4px;
+    padding: 5px 10px;  /* Add padding to the tags */
+    margin: 2px;  /* Space between tags */
+    font-size: 14px;  /* Adjust font size for tags */
+    white-space: nowrap;  /* Ensure tags don’t break to new lines */
+}
+
+.select2-container--default .select2-selection--multiple {
+    padding-right: 0 !important;  /* Remove any additional padding on the right side */
+}
+
+.select2-search__field {
+    width: 100% !important;  /* Ensure the search field stretches to the full width */
+    min-width: 150px;  /* Minimum width to ensure the input field is wide enough */
+}

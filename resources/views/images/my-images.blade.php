@@ -5,12 +5,12 @@
     <div class="title">
     My Images
     </div>
-    <a href="{{ route('images.create') }}" class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
+    <a href="{{ route('images.create') }}" class="upload-btn px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
             Upload New Image
     </a>
     <!-- Search and Filter Form -->
     <div class="search-function">
-        <form method="GET" action="{{ route('images.index') }}" class="flex items-center mb-4">
+        <form method="GET" action="{{ route('images.my-images') }}" class="flex items-center mb-4">
             <!-- Search Input -->
             <input type="text" class="search-form" name="title" placeholder="Search by title" value="{{ request('title') }}">
 
@@ -19,15 +19,15 @@
 
             <!-- Sorting Dropdown -->
             <select name="sort" class="ml-4 sort-form">
-                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest</option>
-                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest</option>
+                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Sort by: Newest</option>
+                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Sort by: Oldest</option>
             </select>
 
             <!-- Submit Button -->
-            <button type="submit" class="ml-4 text-white search-btn">Search</button>
+            <button type="submit" class="search-btn ml-4 text-white search-btn">Search</button>
 
             <!-- Clear Search Button -->
-            <a href="{{ route('images.my-images') }}" class="text-blue-500 hover:text-blue-700 ml-4 clear-btn">Clear Search</a>
+            <a href="{{ route('images.my-images') }}" class="clear-btn text-blue-500 hover:text-blue-700 ml-4 clear-btn">Clear Search</a>
         </form>
     </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

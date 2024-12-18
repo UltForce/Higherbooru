@@ -16,15 +16,15 @@
 
             <!-- Sorting Dropdown -->
             <select name="sort" class="ml-4 sort-form">
-                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Newest</option>
-                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Oldest</option>
+                <option value="newest" {{ request('sort') == 'newest' ? 'selected' : '' }}>Sort by: Newest</option>
+                <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Sort by: Oldest</option>
             </select>
 
             <!-- Submit Button -->
-            <button type="submit" class="ml-4 text-white search-btn">Search</button>
+            <button type="submit" class="search-btn ml-4 text-white search-btn">Search</button>
 
             <!-- Clear Search Button -->
-            <a href="{{ route('images.index') }}" class="text-blue-500 hover:text-blue-700 ml-4 clear-btn">Clear Search</a>
+            <a href="{{ route('images.index') }}" class="clear-btn text-blue-500 hover:text-blue-700 ml-4 clear-btn">Clear Search</a>
         </form>
     </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

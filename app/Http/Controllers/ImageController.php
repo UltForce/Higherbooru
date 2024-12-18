@@ -109,7 +109,7 @@ public function store(Request $request)
 {
     // Validate the incoming request
     $request->validate([
-        'title' => 'required|string|max:255',
+        'title' => 'required|string|max:32',
         'image' => 'required|image',
         'tags' => 'nullable|array', // Array of tags
         'tags.*' => 'nullable|string|distinct', // Each tag should be a string and unique
@@ -146,11 +146,18 @@ public function show($id)
 
     public function edit(Image $image)
     {
+        // Ensure the logged-in user is the owner of the image or is an admin
         if (!auth()->user()->isAdmin() && auth()->id() !== $image->user_id) {
             abort(403); // Forbidden
         }
-        return view('images.edit', compact('image'));
+
+        // Fetch all tags and the current tags for this image
+        $tags = Tag::all();
+        $selectedTags = $image->tags->pluck('id')->toArray();
+
+        return view('images.edit', compact('image', 'tags', 'selectedTags'));
     }
+
     
     public function update(Request $request, Image $image)
     {
@@ -159,7 +166,7 @@ public function show($id)
         }
     
         $request->validate([
-            'title' => 'required|max:255',
+            'title' => 'required|max:32',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
     
@@ -209,13 +216,43 @@ public function bookmark($imageId)
     }
 }
 
-public function myBookmarks()
+public function myBookmarks(Request $request)
 {
     $user = auth()->user();
-    $bookmarkedImages = $user->bookmarks()->with('image')->get()->pluck('image');
 
+    // Get the base query for bookmarked images
+    $query = Image::whereIn('id', $user->bookmarks()->pluck('image_id'));
 
-    return view('images.my-bookmarks', compact('bookmarkedImages'));
+    // Search by title
+    if ($request->has('title') && $request->input('title') !== '') {
+        $query->where('title', 'like', '%' . $request->input('title') . '%');
+    }
+
+    // Search by tags
+    if ($request->has('tags') && !empty($request->input('tags'))) {
+        $query->whereHas('tags', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->input('tags') . '%');
+        });
+    }
+
+    // Apply sorting based on user selection or default to 'newest'
+    $sort = $request->input('sort', 'newest'); // Default to 'newest' if no sort parameter is given
+    if ($sort == 'newest') {
+        $query->orderBy('created_at', 'desc');
+    } elseif ($sort == 'oldest') {
+        $query->orderBy('created_at', 'asc');
+    }
+
+    // Eager load the user relationship and paginate the results
+    $bookmarkedImages = $query->with('user')->paginate(6);
+
+    // Add 'is_bookmarked' property to each image
+    foreach ($bookmarkedImages as $image) {
+        $image->is_bookmarked = true; // All images in this scope are bookmarked
+    }
+
+    // Return the view with the filtered and sorted bookmarked images
+    return view('images.my-bookmarks', compact('bookmarkedImages', 'sort'));
 }
 
 

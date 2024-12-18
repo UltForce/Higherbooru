@@ -1,27 +1,30 @@
 <x-app-layout>
+    <link href="{{ asset('css/show.css') }}" rel="stylesheet">
     <div class="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            <img class="w-full h-96 object-cover" src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $image->title }}">
-            <div class="p-6">
-                <h1 class="text-2xl font-bold text-gray-800">{{ $image->title }}</h1>
-                <p class="text-gray-600 mt-2">Uploaded by: {{ $image->user->name }}</p>
+            <img class="show-img w-full h-auto object-contain" src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $image->title }}">
+            <div class="info-container p-6">
+                <h1 class="image-title text-2xl font-bold text-gray-800">{{ $image->title }}</h1>
+                <p class="image-uploader text-gray-600 mt-2">Uploaded by: {{ $image->user->name }}</p>
 
                 <div class="mt-4">
                     <strong>Tags:</strong>
                     @foreach ($image->tags as $tag)
-                        <span class="inline-block bg-gray-200 text-sm text-gray-600 px-2 py-1 rounded">{{ $tag->name }}</span>
+                        <span class="image-tags inline-block bg-gray-200 text-sm text-gray-600 px-2 py-1 rounded">{{ $tag->name }}</span>
                     @endforeach
                 </div>
 
                 <div class="mt-4 flex items-center">
                     <!-- Bookmark Button -->
-                    <form action="{{ route('images.bookmark', $image->id) }}" method="POST">
-                        @csrf
-                        <button type="submit" class="text-red-500 hover:text-red-600">
-                            <i class="{{ $image->is_bookmarked ? 'fas fa-heart' : 'far fa-heart' }}"></i> Bookmark
-                        </button>
-                    </form>
-                    <span class="text-sm text-gray-500 ml-2">{{ $image->bookmarkCount() }} bookmarks</span>
+                    <div class="bookmark-cntr flex items-center mt-2 space-x-2 mt-auto">
+                        <form action="{{ route('images.bookmark', $image->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="text-red-500 hover:text-red-600">
+                                <i class="{{ $image->is_bookmarked ? 'fas fa-heart' : 'far fa-heart' }}"></i> Bookmark
+                            </button>
+                        </form>
+                        <span class="image-bookmark-cntr text-sm text-gray-500 ml-2">{{ $image->bookmarkCount() }} bookmarks</span>
+                    </div>
                 </div>
 
                 <!-- Edit and Delete Buttons for Image Owner -->
@@ -46,32 +49,34 @@
         </div>
 
         <!-- Comments Section -->
-        <div class="mt-8">
-            <h2 class="text-xl font-bold text-gray-800">Comments</h2>
+        <div class="comments-container mt-8">
+            <h2 class="comments-header text-xl font-bold text-gray-800">Comments</h2>
 
             <!-- Add a Comment -->
-            <form id="comment-form" action="{{ route('comments.store', $image->id) }}" method="POST" onsubmit="return confirmPostComment(event)">
-                @csrf
-                <textarea name="content" placeholder="Write a comment..." required></textarea>
-                <button type="submit" class="text-white">Post Comment</button>
-            </form>
+            <div class="comment-form">
+                <form id="comment-form" class="comment-field" action="{{ route('comments.store', $image->id) }}" method="POST" onsubmit="return confirmPostComment(event)">
+                    @csrf
+                    <textarea name="content" placeholder="Write a comment..." required class="comment-textarea"></textarea>
+                    <button type="submit" class="post-comment-btn">Post Comment</button>
+                </form>
+            </div>
 
             <!-- List of Comments -->
-            <div class="mt-6 space-y-4">
+            <div class="list-container mt-6 space-y-4">
                 @foreach ($image->comments as $comment)
-                    <div class="bg-gray-100 p-4 rounded">
-                        <p class="text-gray-800">{{ $comment->content }}</p>
-                        <div class="mt-2 text-sm text-gray-500">
-                            By User #{{ $comment->user_id }} - {{ $comment->created_at->diffForHumans() }}
+                    <div class="comment-box bg-gray-100 p-4 rounded">
+                        <p class="comment-content text-gray-800">{{ $comment->content }}</p>
+                        <div class="commenter-username mt-2 text-sm text-gray-500">
+                            Commented by: {{ $comment->user->name }} - {{ $comment->created_at->diffForHumans() }}
                         </div>
-                        <div class="mt-2 flex items-center">
+                        <div class="likes-container mt-2 flex items-center">
                             <form action="{{ route('comments.like', $comment->id) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="text-red-500 hover:text-red-600">
+                                <button type="submit" class="like-btn like-text text-blue-500 hover:text-red-600">
                                     <i class="{{ $comment->isLikedBy(auth()->user()) ? 'fas fa-thumbs-up' : 'far fa-thumbs-up' }}"></i> Like
                                 </button>
                             </form>
-                            <span class="text-sm text-gray-500 ml-2">{{ $comment->likes->count() }} likes</span>
+                            <span class="like-counter text-sm text-gray-500 ml-2">{{ $comment->likes->count() }} likes</span>
 
                             @if(auth()->id() === $comment->user_id || auth()->user()->isAdmin())
                                 <!-- Delete Comment Button -->
@@ -79,7 +84,7 @@
                                     @csrf
                                     @method('DELETE')
                                 </form>
-                                <button onclick="confirmDeleteComment({{ $comment->id }})" class="ml-4 text-red-500 hover:text-red-600">
+                                <button onclick="confirmDeleteComment({{ $comment->id }})" class="delete-text ml-4 text-red-500 hover:text-red-600">
                                     <i class="fas fa-trash"></i> Delete
                                 </button>
                             @endif
@@ -90,6 +95,7 @@
         </div>
     </div>
 </x-app-layout>
+
 
 <script>
     function confirmPostComment(event) {
