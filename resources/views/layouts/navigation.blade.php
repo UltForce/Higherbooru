@@ -12,16 +12,14 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-        {{ __('Dashboard') }}
+
+    <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index')">
+        {{ __('Posts') }}
     </x-nav-link>
-    <x-nav-link :href="route('images.index')" :active="request()->routeIs('images.index')">
-        {{ __('Images') }}
+    <x-nav-link :href="route('posts.my-posts')" :active="request()->routeIs('posts.my-posts')">
+        {{ __('My Posts') }}
     </x-nav-link>
-    <x-nav-link :href="route('images.my-images')" :active="request()->routeIs('images.my-images')">
-        {{ __('My Images') }}
-    </x-nav-link>
-    <x-nav-link :href="route('images.myBookmarks')" :active="request()->routeIs('images.myBookmarks')">
+    <x-nav-link :href="route('posts.myBookmarks')" :active="request()->routeIs('posts.myBookmarks')">
         {{ __('My Bookmarks') }}
     </x-nav-link>
 </div>

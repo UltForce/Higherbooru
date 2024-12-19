@@ -19,7 +19,36 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+<style>
+    .post-container {
+        position: relative; /* Ensure positioning context for the buttons */
+    }
 
+    .carousel-container button {
+        font-size: 2rem; /* Bigger arrows */
+        width: 50px; /* Width of the button */
+        height: 50px; /* Height of the button */
+        background: none; /* No background */
+        border: none; /* No border */
+        color: white; /* Arrow color */
+        z-index: 10; /* Ensure buttons are above images */
+    }
+
+    /* Positioning the left button on the middle-left of the image */
+    .prevBtn {
+        left: 10px; /* Adjust as needed */
+    }
+
+    /* Positioning the right button on the middle-right of the image */
+    .nextBtn {
+        right: 10px; /* Adjust as needed */
+    }
+
+    /* Optional: Add a hover effect for better interactivity */
+    .carousel-container button:hover {
+        color: #ccc; /* Light color on hover */
+    }
+</style>
 
     </head>
     <body class="font-sans antialiased">

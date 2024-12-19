@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans&family=Quicksand&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans&family=Quicksand&display=swap");
 
 body {
     margin: 0;
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
     color: #1b2838;
 }
 
@@ -143,7 +143,7 @@ body {
 } */
 
 .search-btn {
-    background-color: #4CAF50; /* Green background */
+    background-color: #4caf50; /* Green background */
     color: white; /* White text */
     border: none; /* Remove border */
     cursor: pointer; /* Pointer cursor on hover */
@@ -190,7 +190,7 @@ body {
 
 /* Add a pseudo-element for the arrow */
 .sort-form::after {
-    content: '▼'; /* Dropdown arrow */
+    content: "▼"; /* Dropdown arrow */
     font-size: 0.75rem; /* Adjust arrow size */
     color: white; /* Match arrow color */
     position: absolute;
@@ -208,4 +208,85 @@ body {
 
 .sort-form:hover {
     border-color: white; /* Add hover effect */
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%; /* Make sure the container takes full width */
+    overflow: hidden; /* Hide the images that go beyond the container */
+}
+
+.carousel-images {
+    display: flex; /* Display images in a row */
+    transition: transform 0.5s ease-in-out; /* Smooth transition */
+}
+
+.carousel-images img {
+    width: 100%; /* Make sure each image takes full width of the container */
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* General button hover effect */
+.upload-btn:hover,
+.search-btn:hover,
+.clear-btn:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+/* Bookmark Button Hover */
+.bookmark-cntr button:hover {
+    color: #e74c3c; /* Change color on hover */
+    transform: scale(1.1); /* Scale up on hover */
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* Edit Button Hover */
+.edit-button:hover {
+    background-color: #f39c12;
+    color: white;
+    transform: scale(1.05); /* Add scale effect */
+    transition: all 0.3s ease;
+}
+
+.edit-button a {
+    color: inherit; /* Ensure the link inherits the button text color */
+    text-decoration: none; /* Remove underline from link */
+}
+
+/* Delete Button Hover */
+.delete-button:hover {
+    background-color: #e74c3c;
+    color: white;
+    transform: scale(1.05); /* Add scale effect */
+    transition: all 0.3s ease;
+}
+
+/* Additional styles to style the buttons */
+button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Optional: if you want to remove the link underline in Edit button */
+.edit-button a:hover {
+    text-decoration: none;
+}
+
+/* Hover effect for carousel navigation buttons */
+.prevBtn:hover,
+.nextBtn:hover {
+    background-color: rgba(0, 0, 0, 0.75); /* Darken the background on hover */
+    transform: scale(1.1); /* Slightly enlarge on hover */
+    transition: all 0.3s ease;
+}
+
+/* Hover effect for the post container */
+.post-cntr:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow when hovering over the post */
+    transform: scale(1.02);
+    transition: all 0.3s ease;
 }

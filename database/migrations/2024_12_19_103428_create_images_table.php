@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('image_path');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // Foreign key to users table
+            $table->foreignId('post_id')->nullable()->constrained()->onDelete('cascade'); // foreignId creates correct column type and constraint
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // foreignId for users table
             $table->timestamps();
         });
     }

@@ -2,48 +2,61 @@
     <link href="{{ asset('css/show.css') }}" rel="stylesheet">
     <div class="max-w-5xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            <img class="show-img w-full h-auto object-contain" src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $image->title }}">
+        <div class="carousel-container overflow-hidden">
+                                        <div class="carousel-images flex transition-transform duration-500" id="carousel-images-{{ $post->id }}">
+                                            @foreach ($post->images as $image)
+                                                <img class="w-full h-48 object-cover" src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $post->title }}">
+                                            @endforeach
+                                        </div>
+                                    </div>
+                                    <button class="absolute top-1/2 left-2 transform -translate-y-1/2 text-white bg-black bg-opacity-50 p-2 rounded-full prevBtn" id="prevBtn-{{ $post->id }}">←</button>
+                                    <button class="absolute top-1/2 right-2 transform -translate-y-1/2 text-white bg-black bg-opacity-50 p-2 rounded-full nextBtn" id="nextBtn-{{ $post->id }}">→</button>
             <div class="info-container p-6">
-                <h1 class="image-title text-2xl font-bold text-gray-800">{{ $image->title }}</h1>
-                <p class="image-uploader text-gray-600 mt-2">Uploaded by: {{ $image->user->name }}</p>
+                <h1 class="post-title text-2xl font-bold text-gray-800">{{ $post->title }}</h1>
+                <p class="post-author text-gray-600 mt-2">Posted by: {{ $post->user->name }}</p>
 
                 <div class="mt-4">
-                    <strong>Tags:</strong>
-                    @foreach ($image->tags as $tag)
+                <strong>Tags:</strong>
+                    @foreach ($post->tags as $tag)
                         <span class="image-tags inline-block bg-gray-200 text-sm text-gray-600 px-2 py-1 rounded">{{ $tag->name }}</span>
                     @endforeach
+                </div>
+
+                <div class="mt-4">
+                    <strong>Description:</strong>
+                    <p class="post-description text-gray-800">{{ $post->description }}</p>
                 </div>
 
                 <div class="mt-4 flex items-center">
                     <!-- Bookmark Button -->
                     <div class="bookmark-cntr flex items-center mt-2 space-x-2 mt-auto">
-                        <form action="{{ route('images.bookmark', $image->id) }}" method="POST">
+                        <form action="{{ route('posts.bookmark', $post->id) }}" method="POST">
                             @csrf
                             <button type="submit" class="text-red-500 hover:text-red-600">
-                                <i class="{{ $image->is_bookmarked ? 'fas fa-heart' : 'far fa-heart' }}"></i> Bookmark
+                                <i class="{{ $post->is_bookmarked ? 'fas fa-heart' : 'far fa-heart' }}"></i> Bookmark
                             </button>
                         </form>
-                        <span class="image-bookmark-cntr text-sm text-gray-500 ml-2">{{ $image->bookmarkCount() }} bookmarks</span>
+                        <span class="post-bookmark-cntr text-sm text-gray-500 ml-2">{{ $post->bookmarkCount() }} bookmarks</span>
                     </div>
                 </div>
 
-                <!-- Edit and Delete Buttons for Image Owner -->
-                @if(auth()->id() === $image->user_id || auth()->user()->isAdmin())
+                <!-- Edit and Delete Buttons for Post Owner -->
+                @if(auth()->id() === $post->user_id || auth()->user()->isAdmin())
                     <div class="mt-4 flex space-x-2">
-                        <!-- Edit Button -->
-                        <a href="{{ route('images.edit', $image->id) }}" class="px-4 py-2 text-black bg-yellow-500 border border-yellow-600 rounded hover:bg-yellow-600 hover:text-white transition-all">
-                            Edit
-                        </a>
-                        <!-- Delete Button -->
-                        <form id="delete-form-{{ $image->id }}" action="{{ route('images.destroy', $image->id) }}" method="POST" style="display:none;">
-                            @csrf
-                            @method('DELETE')
-                        </form>
-                        <button class="px-4 py-2 text-black bg-red-500 border border-red-600 rounded hover:bg-red-600 hover:text-white transition-all"
-                                onclick="confirmDelete({{ $image->id }})">
-                            Delete
-                        </button>
-                    </div>
+  <!-- Edit Button -->
+  <button class="edit-button">
+        <a href="{{ route('posts.edit', $post->id) }}" class="text-white">Edit</a>
+    </button>
+
+    <!-- Delete Button -->
+    <form id="delete-form-{{ $post->id }}" action="{{ route('posts.destroy', $post->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+    </form>
+    <button class="delete-button" onclick="confirmDelete({{ $post->id }})">
+        Delete
+    </button>
+</div>
                 @endif
             </div>
         </div>
@@ -54,7 +67,7 @@
 
             <!-- Add a Comment -->
             <div class="comment-form">
-                <form id="comment-form" class="comment-field" action="{{ route('comments.store', $image->id) }}" method="POST" onsubmit="return confirmPostComment(event)">
+                <form id="comment-form" class="comment-field" action="{{ route('comments.store', $post->id) }}" method="POST" onsubmit="return confirmPostComment(event)">
                     @csrf
                     <textarea name="content" placeholder="Write a comment..." required class="comment-textarea"></textarea>
                     <button type="submit" class="post-comment-btn">Post Comment</button>
@@ -63,7 +76,7 @@
 
             <!-- List of Comments -->
             <div class="list-container mt-6 space-y-4">
-                @foreach ($image->comments as $comment)
+                @foreach ($post->comments as $comment)
                     <div class="comment-box bg-gray-100 p-4 rounded">
                         <p class="comment-content text-gray-800">{{ $comment->content }}</p>
                         <div class="commenter-username mt-2 text-sm text-gray-500">
@@ -96,7 +109,6 @@
     </div>
 </x-app-layout>
 
-
 <script>
     function confirmPostComment(event) {
         event.preventDefault(); // Prevent default form submission
@@ -126,7 +138,7 @@
         });
     }
 
-    function confirmDelete(imageId) {
+    function confirmDelete(postId) {
         Swal.fire({
             title: 'Are you sure?',
             text: "This action cannot be undone!",
@@ -141,13 +153,13 @@
                 // Show success message before form submission
                 Swal.fire({
                     title: 'Deleted!',
-                    text: 'The image has been deleted successfully.',
+                    text: 'The post has been deleted successfully.',
                     icon: 'success',
                     showConfirmButton: true,
                     timer: 1500
                 }).then(() => {
                     // Submit the form after success message
-                    document.getElementById('delete-form-' + imageId).submit();
+                    document.getElementById('delete-form-' + postId).submit();
                 });
             }
         });
@@ -178,4 +190,43 @@
             }
         });
     }
+
+    
+        // Carousel functionality
+        document.querySelectorAll('.carousel-container').forEach((carouselContainer) => {
+            const postId = carouselContainer.querySelector('.carousel-images').id.split('-')[2];
+            const prevBtn = document.getElementById(`prevBtn-${postId}`);
+            const nextBtn = document.getElementById(`nextBtn-${postId}`);
+            const carouselImages = document.getElementById(`carousel-images-${postId}`);
+            let currentIndex = 0;
+
+            function moveCarousel() {
+                const totalImages = carouselImages.children.length;
+                if (currentIndex < 0) currentIndex = totalImages - 1;
+                if (currentIndex >= totalImages) currentIndex = 0;
+                const offset = -currentIndex * 100;
+                carouselImages.style.transform = `translateX(${offset}%)`;
+            }
+
+            prevBtn.addEventListener('click', () => {
+                currentIndex--;
+                moveCarousel();
+            });
+
+            nextBtn.addEventListener('click', () => {
+                currentIndex++;
+                moveCarousel();
+            });
+        });
+
+           // SweetAlert for bookmarking/unbookmarking success
+    @if(session('bookmark_success'))
+        Swal.fire({
+            title: 'Success!',
+            text: '{{ session("bookmark_success") }}',
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1500
+        });
+    @endif
 </script>

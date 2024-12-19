@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans&family=Quicksand&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans&family=Quicksand&display=swap");
 
 body {
     margin: 0;
-    font-family: 'DM Sans', sans-serif;
+    font-family: "DM Sans", sans-serif;
     color: #1b2838;
 }
 
@@ -149,7 +149,7 @@ body {
 }
 
 .search-btn {
-    background-color: #4CAF50; /* Green background */
+    background-color: #4caf50; /* Green background */
     color: white; /* White text */
     border: none; /* Remove border */
     cursor: pointer; /* Pointer cursor on hover */
@@ -196,7 +196,7 @@ body {
 
 /* Add a pseudo-element for the arrow */
 .sort-form::after {
-    content: '▼'; /* Dropdown arrow */
+    content: "▼"; /* Dropdown arrow */
     font-size: 0.75rem; /* Adjust arrow size */
     color: white; /* Match arrow color */
     position: absolute;
@@ -214,4 +214,20 @@ body {
 
 .sort-form:hover {
     border-color: white; /* Add hover effect */
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%; /* Make sure the container takes full width */
+    overflow: hidden; /* Hide the images that go beyond the container */
+}
+
+.carousel-images {
+    display: flex; /* Display images in a row */
+    transition: transform 0.5s ease-in-out; /* Smooth transition */
+}
+
+.carousel-images img {
+    width: 100%; /* Make sure each image takes full width of the container */
+    height: auto; /* Maintain aspect ratio */
 }

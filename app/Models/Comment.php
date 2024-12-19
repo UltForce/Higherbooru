@@ -27,4 +27,11 @@ public function user()
 {
     return $this->belongsTo(User::class);
 }
+
+// In Comment model (App\Models\Comment)
+public function post()
+{
+    return $this->belongsTo(Post::class);
+}
+
 }

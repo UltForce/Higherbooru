@@ -13,14 +13,10 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('image_id'); // Foreign key for the related image
-            $table->unsignedBigInteger('user_id'); // Foreign key for the user who posted the comment
-            $table->text('content'); // The comment text
+            $table->foreignId('post_id')->constrained()->onDelete('cascade'); // foreignId will reference the id column on posts table
+            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // foreignId will reference the id column on users table
+            $table->text('content');
             $table->timestamps();
-
-            // Foreign key constraints
-            $table->foreign('image_id')->references('id')->on('images')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

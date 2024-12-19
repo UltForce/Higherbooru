@@ -6,32 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Image extends Model
 {
-    protected $fillable = ['title', 'image_path', 'user_id'];
+    protected $fillable = ['image_path', 'post_id'];
 
-    public function bookmarks()
-{
-    return $this->hasMany(Bookmark::class);
+    // An image belongs to a post
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    // An image belongs to a user (optional if required)
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
-
-public function bookmarkCount()
-{
-    return $this->bookmarks()->count();
-}
-
-public function tags()
-{
-    return $this->belongsToMany(Tag::class);
-}
-
-public function comments()
-{
-    return $this->hasMany(Comment::class);
-}
-
-public function user()
-{
-    return $this->belongsTo(User::class);
-}
-
-}
-

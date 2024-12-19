@@ -1,0 +1,15 @@
+.carousel-container {
+    position: relative;
+    width: 100%; /* Make sure the container takes full width */
+    overflow: hidden; /* Hide the images that go beyond the container */
+}
+
+.carousel-images {
+    display: flex; /* Display images in a row */
+    transition: transform 0.5s ease-in-out; /* Smooth transition */
+}
+
+.carousel-images img {
+    width: 100%; /* Make sure each image takes full width of the container */
+    height: auto; /* Maintain aspect ratio */
+}

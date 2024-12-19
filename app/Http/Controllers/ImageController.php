@@ -17,9 +17,9 @@ class ImageController extends Controller
         $query = Image::query();
     
         // // Exclude images owned by the logged-in user, except for admins
-        // if (!auth()->user()->isAdmin()) {
-        //     $query->where('user_id', '!=', auth()->id());
-        // }
+         if (!auth()->user()->isAdmin()) {
+             $query->where('user_id', '!=', auth()->id());
+         }
     
     // Search by title
     if ($request->has('title') && $request->input('title') !== '') {

@@ -1,27 +1,34 @@
 <x-app-layout>
-    <link href="{{ asset('css/create.css') }}" rel="stylesheet">
+<link href="{{ asset('css/create.css') }}" rel="stylesheet">
     <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
-        <h1 class="title text-2xl font-bold mb-6 text-white">Create New Image</h1>
-        <form id="create-form" class="create-form-container" action="{{ route('images.store') }}" method="POST" enctype="multipart/form-data" onsubmit="return confirmCreate(event)">
+        <h1 class="title text-2xl font-bold mb-6 text-white">Create New Post</h1>
+        <form id="create-form" class="create-form-container" action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data" onsubmit="return confirmCreate(event)">
             @csrf
             <div class="form-group">
                 <label for="title" class="form-label">Title:</label>
                 <input type="text" name="title" id="title" class="form-input" placeholder="Maximum 32 characters" required maxlength="32">
             </div>
+
             <div class="form-group">
-                <label for="image" class="form-label">Image:</label>
-                <input type="file" name="image" id="image" class="form-input" accept=".jpg,.jpeg,.png,.gif,.webp" required onchange="previewImage(event)">
+                <label for="description" class="form-label">Description:</label>
+                <textarea name="description" id="description" class="form-input" placeholder="Write your post description" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="images" class="form-label">Images (You can select multiple images):</label>
+                <input type="file" name="images[]" id="images" class="form-input" accept=".jpg,.jpeg,.png,.gif,.webp" required multiple onchange="previewImages(event)">
                 <!-- Image preview will show up here -->
-                <div id="image-preview-container" style="display: none; margin-top: 10px; display: flex; justify-content: center;">
-                    <img id="image-preview" src="" style="max-width: 100%; max-height: 300px; border-radius: 8px;">
+                <div id="image-preview-container" style="display: none; margin-top: 10px; display: flex; flex-wrap: wrap;">
+                    <!-- Image previews will be appended here dynamically -->
                 </div>
             </div>
+
             <div class="form-group tags-container">
                 <label for="tags" class="form-label">Tags: (separated by commas)</label>
                 <select name="tags[]" id="tags" class="form-input" multiple></select>
             </div>
 
-            <button type="submit" class="upload-btn">Upload</button>
+            <button type="submit" class="upload-btn">Create Post</button>
         </form>
     </div>
 
@@ -36,21 +43,32 @@
             });
         });
 
-        // Function to preview the selected image inside the form group
-        function previewImage(event) {
-            const image = event.target.files[0];
+        // Function to preview selected images inside the form group
+        function previewImages(event) {
+            const files = event.target.files;
             const previewContainer = document.getElementById('image-preview-container');
-            const preview = document.getElementById('image-preview');
-            const reader = new FileReader();
+            previewContainer.innerHTML = ''; // Clear previous previews
 
-            reader.onload = function(e) {
-                preview.src = e.target.result;
-                previewContainer.style.display = 'flex';  // Show the preview container and center the image
-            };
+            Array.from(files).forEach((file) => {
+                const reader = new FileReader();
 
-            if (image) {
-                reader.readAsDataURL(image);
-            }
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.style.maxWidth = '100px';
+                    img.style.maxHeight = '100px';
+                    img.style.marginRight = '10px';
+                    img.style.marginBottom = '10px';
+                    img.style.borderRadius = '8px';
+                    previewContainer.appendChild(img);
+                };
+
+                if (file) {
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            previewContainer.style.display = 'flex';  // Show the preview container
         }
 
         function confirmCreate(event) {
@@ -60,7 +78,7 @@
             if (!title) {
                 Swal.fire({
                     title: 'Title is required!',
-                    text: 'Please enter a title for the image.',
+                    text: 'Please enter a title for the post.',
                     icon: 'warning',
                     confirmButtonColor: '#3085d6',
                     confirmButtonText: 'Ok'
@@ -70,7 +88,7 @@
 
             Swal.fire({
                 title: 'Are you sure?',
-                text: "Do you want to create this image?",
+                text: "Do you want to create this post?",
                 icon: 'question',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -80,7 +98,7 @@
                 if (result.isConfirmed) {
                     Swal.fire({
                         title: 'Created!',
-                        text: 'The image has been created successfully.',
+                        text: 'The post has been created successfully.',
                         icon: 'success',
                         showConfirmButton: true,
                         timer: 1500

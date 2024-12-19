@@ -9,11 +9,11 @@ class Tag extends Model
 {
     use HasFactory;
 
-    // Add 'name' to the $fillable property
     protected $fillable = ['name'];
     
-    public function images()
-{
-    return $this->belongsToMany(Image::class);
-}
+    // Define the relationship to posts
+    public function posts()
+    {
+        return $this->belongsToMany(Post::class);
+    }
 }
